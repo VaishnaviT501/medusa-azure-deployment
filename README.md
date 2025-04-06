@@ -1,2 +1,4 @@
 # medusa-azure-deployment# Trigger deployment
-Trigger
+In this project, I attempted to deploy the Medusa headless commerce backend on Microsoft Azure using Docker, Terraform, and GitHub Actions. The goal was to containerize the Medusa backend using Docker, push the image to Azure Container Registry (ACR), and use Terraform to define and provision Azure infrastructure such as the resource group and placeholders for services like Azure Web Apps or Azure Container Apps. I also began setting up a GitHub Actions workflow for continuous deployment that would log into Azure, build and push the Docker image to ACR, and run Terraform to apply infrastructure changes automatically. Sensitive credentials and secrets were managed securely via GitHub Secrets.
+
+Although I made substantial progress—including containerization, initial Terraform configuration, and CI/CD setup—due to configuration issues and time constraints, I was not able to fully complete the deployment. However, the project structure is in place and can be resumed and completed with some additional debugging and environment setup.
