@@ -1,0 +1,8 @@
+JWT_SECRET=caa67a77112396dfcecea5fa20097b36bd10616639010c92e9d6cb4777baff34
+COOKIE_SECRET=52ccbdd6a1f56000ab3e0fcc04f37691e9a6e7692ca085ad3e3390cd159becf9
+ADMIN_CORS=http://localhost:7000
+STORE_CORS=http://localhost:8000
+POSTGRES_ADMIN_USER=medusadbadmin
+POSTGRES_ADMIN_PASS=StrongPassword123!
+DB_NAME=medusadbadmin
+ACR_NAME=medusaregistry501
