@@ -1,0 +1,58 @@
+name: Deploy Medusa to Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure CLI - Login to ACR
+      run: az acr login --name ${{ secrets.ACR_NAME }}
+
+    - name: Build and Push Docker Image to ACR
+      run: |
+        docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/medusa:latest .
+        docker push ${{ secrets.ACR_NAME }}.azurecr.io/medusa:latest
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.6.6
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      env:
+        ARM_CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
+        ARM_CLIENT_SECRET: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}
+        ARM_SUBSCRIPTION_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).subscriptionId }}
+        ARM_TENANT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).tenantId }}
+
+        TF_VAR_resource_group_name: ${{ secrets.AZURE_RG }}
+        TF_VAR_location: ${{ secrets.LOCATION }}
+        TF_VAR_acr_name: ${{ secrets.ACR_NAME }}
+        TF_VAR_postgres_admin_user: ${{ secrets.POSTGRES_ADMIN_USER }}
+        TF_VAR_postgres_admin_password: ${{ secrets.POSTGRES_ADMIN_PASS }}
+        TF_VAR_db_name: ${{ secrets.DB_NAME }}
+        TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
+        TF_VAR_cookie_secret: ${{ secrets.COOKIE_SECRET }}
+        TF_VAR_admin_cors: ${{ secrets.ADMIN_CORS }}
+        TF_VAR_store_cors: ${{ secrets.STORE_CORS }}
+        TF_VAR_environment: "prod"
