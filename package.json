@@ -1,0 +1,17 @@
+{
+    "name": "medusa-backend",
+    "version": "1.0.0",
+    "description": "A headless commerce backend using Medusa",
+    "scripts": {
+      "start": "medusa develop",
+      "build": "medusa build"
+    },
+    "dependencies": {
+      "@medusajs/medusa": "^1.11.0",  
+      "dotenv": "^10.0.0"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    }
+  }
+  
