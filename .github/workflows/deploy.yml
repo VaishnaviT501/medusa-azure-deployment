@@ -18,6 +18,12 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Debug secrets
+      run: |
+        echo "JWT_SECRET: ${{ secrets.JWT_SECRET }}"
+        echo "ADMIN_CORS: ${{ secrets.ADMIN_CORS }}"
+      
+
     - name: Azure CLI - Login to ACR
       run: az acr login --name ${{ secrets.ACR_NAME }}
 
