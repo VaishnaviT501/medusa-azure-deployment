@@ -40,12 +40,15 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
+      working-directory: ./infra
 
     - name: Terraform Plan
       run: terraform plan
+      working-directory: ./infra
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+      working-directory: ./infra
       env:
         ARM_CLIENT_ID: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientId }}
         ARM_CLIENT_SECRET: ${{ fromJSON(secrets.AZURE_CREDENTIALS).clientSecret }}
